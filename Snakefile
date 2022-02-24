@@ -17,12 +17,8 @@ split_fq = "scripts/python/get_full_barcodes.py"
 add_chr = "scripts/python/ensembl2ucsc.py"
 get_clusters = "scripts/python/get_clusters.py"
 get_cluster_size = "scripts/r/get_cluster_size_distribution.r"
-hicorrector = "scripts/HiCorrector_1.2/bin/ic"
 clusters_heatmap = "scripts/python/get_sprite_contacts.py"
 
-
-# Check if file is executable
-assert which(hicorrector) is not None, "HiCorrector ic needs to be executable"
 
 # Copy config file into logs
 v = datetime.datetime.now()
@@ -30,7 +26,6 @@ run_date = v.strftime("%Y.%m.%d.")
 
 # Load config.yaml file
 INFO = ""
-
 
 try:
     email = config["email"]
@@ -336,6 +331,8 @@ rule cutadapt:
         "-a GATCGGAAGAG -g file:dpm96.fasta",
     log:
         "logs/cutadapt/{sample}.log",
+    conda:
+        "envs/sprite.yaml"
     threads: 10
     shell:
         """
@@ -478,7 +475,7 @@ rule make_heatmap_matrix:
         --assembly {assembly} \
         --chromosome {chromosome} \
         --downweighting {downweighting} \
-        --hicorrector {hicorrector} \
+        --hicorrector ic \
         --resolution {resolution} \
         --iterations {ice_iterations} \
         --max_cluster_size {max_cluster_size} \
