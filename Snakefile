@@ -411,6 +411,8 @@ rule make_clusters:
         out_dir + "workup/logs/{sample}.make_clusters.log",
     conda:
         "envs/sprite.yaml"
+    resources:
+        mem = 8000
     shell:
         "python {get_clusters} -i {input} -o {output} -n {num_tags} &> {log}"
 
