@@ -57,7 +57,7 @@ except:
 # Make pipeline compatible for multiple assemblies
 try:
     assembly = config["assembly"]
-    assert assembly in ["mm10", "hg38"], 'Only "mm10" or "hg38" currently supported'
+    assert assembly in ["mm10", "hg38", "ci_ht_ky19"], 'Only "mm10", "hg38", and "ci_ht_ky19" currently supported'
     INFO += "Using " + assembly + "\n"
 except:
     INFO += 'Config "assembly" not specified, defaulting to "mm10"\n'
@@ -203,7 +203,6 @@ rule all:
         + LE_LOG_ALL
         + TRIM_RD
         + Bt2_DNA_ALIGN
-        + CHR_DNA
         + MASKED
         + CLUSTERS
         + MULTI_QC
@@ -211,11 +210,14 @@ rule all:
         + CLUSTERS_HP
         + PLOT,
 
+# Rule all chr
+rule all_chr:
+    input:
+        CHR_DNA
 
 ################################################################################
 # Log
 ################################################################################
-
 
 rule log_config:
     """Copy config.yaml and place in logs folder with the date run
@@ -391,7 +393,8 @@ rule add_chr:
 
 rule repeat_mask:
     input:
-        out_dir + "workup/alignments/{sample}.DNA.chr.bam",
+        # Skip "add_chr" step for some assemblies that do not require it
+        out_dir + "workup/alignments/{sample}.DNA.bowtie2.mapq20.bam" if (config["assembly"] in ("ci_ht_ky19")) else out_dir + "workup/alignments/{sample}.DNA.chr.bam",
     output:
         out_dir + "workup/alignments/{sample}.DNA.chr.masked.bam",
     conda:

@@ -1,0 +1,9 @@
+name: sprite-pipeline
+channels:
+    - conda-forge
+    - bioconda
+    - defaults
+dependencies:
+    - snakemake>=6.7.0
+    - snakefmt>=0.4.2
+    - drmaa>=0.7.9
