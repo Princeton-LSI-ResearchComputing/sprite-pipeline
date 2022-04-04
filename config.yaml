@@ -5,19 +5,21 @@ bID: "./config.txt"
 #Location of the samples json file produced with fastq2json.py script
 samples: "./samples.json"
 #output directory
-output_dir: ""
+output_dir: "ciona_"
 #Currently "mm10" and "hg38" available
-assembly: "hg38"
+assembly: "ci_ht_ky19"
 #Number of barcodes used
 num_tags: "5"
 #Repeat mask used for filtering DNA contacts
 mask:
     mm10: "mm10_blacklist_rmsk.milliDivLessThan140.bed.gz"
     hg38: "hg38_blacklist_rmsk.milliDivLessThan140.bed.gz"
+    ci_ht_ky19: "ci_ht_ky19_ignorelist.bed.gz"
 #Bowtie2 indexes location with prefix
 bowtie2_index:
     mm10: "/groups/guttman/Peter/genomes/GRCm38.p6/GRCm38.p6"
-    hg38: "/mnt/data/genomes/GRCh38/GRCh38"
+    hg38: "/tigress/lparsons/3_resources/refgenie/alias/hg38/bowtie2_index/default/hg38"
+    ci_ht_ky19: "/tigress/lparsons/3_resources/refgenie/alias/ci_ht_ky19/bowtie2_index/default/ci_ht_ky19"
 #Setting for mating heatmap matrix
 #Plot a chromosome 'chr1' or plot genome wide 'genome'
 chromosome:
